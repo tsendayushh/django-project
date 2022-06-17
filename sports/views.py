@@ -15,10 +15,22 @@ def get_sports_with_multiplayers(count=2):
     returns: queryset
     """
     _queryset = Sports.objects.annotate(player_count=Count('players')).filter(player_count__gte=2)
+
+    
+    # A raw query for selecting the sports that multiple (= more than or equal to 2) players are associated with
+    """
+    SELECT `sports`.`id`, `sports`.`name`, COUNT(`sports_players`.`players_id`) AS `player_count` 
+    FROM `sports` 
+    LEFT OUTER JOIN `sports_players` 
+    ON (`sports`.`id` = `sports_players`.`sports_id`) 
+    GROUP BY `sports`.`id` 
+    HAVING COUNT(`sports_players`.`players_id`) >= 2 
+    ORDER BY NULL
+    """
     print(_queryset)
 
     # printing raw query of the above queryset
-    print('multiplayers sports query:',_queryset.query)
+    # print('multiplayers sports query:',_queryset.query)
 
     return _queryset
 
@@ -30,10 +42,21 @@ def get_sports_with_no_player():
     returns: queryset
     """
     _queryset = Sports.objects.annotate(player_count=Count('players')).filter(player_count=0)
+
+    # A raw query for selecting the sports that no player is associated with
+    """
+    SELECT `sports`.`id`, `sports`.`name`, COUNT(`sports_players`.`players_id`) AS `player_count` 
+    FROM `sports` 
+    LEFT OUTER JOIN `sports_players` ON 
+    (`sports`.`id` = `sports_players`.`sports_id`) 
+    GROUP BY `sports`.`id` 
+    HAVING COUNT(`sports_players`.`players_id`) = 0 
+    ORDER BY NULL
+    """
     print(_queryset)
 
     # printing raw query of the above queryset
-    print('sports with no players query:',_queryset.query)
+    # print('sports with no players query:',_queryset.query)
 
     return _queryset
 

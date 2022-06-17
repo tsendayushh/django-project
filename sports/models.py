@@ -20,3 +20,7 @@ class Sports(models.Model):
         db_table = "sports"
         verbose_name = "sports"
         verbose_name_plural = "Sports"
+
+    @staticmethod
+    def get_multiplayer_sports(count=2):
+        return Sports.objects.annotate(player_count=models.Count('players')).filter(player_count=count)

@@ -11,6 +11,9 @@ class Players(models.Model):
         verbose_name = "players"
         verbose_name_plural = "Players"
 
+    def __str__(self):
+        return "%s" % self.email
+
         
 class Sports(models.Model):
     name = models.CharField(verbose_name="Email",unique=True, null=False, max_length=CHAR_MAX_LENGTH, default="Baseball")
@@ -20,6 +23,9 @@ class Sports(models.Model):
         db_table = "sports"
         verbose_name = "sports"
         verbose_name_plural = "Sports"
+        
+    def __str__(self):
+        return "%s" % self.name
 
     @staticmethod
     def get_multiplayer_sports(count=2):

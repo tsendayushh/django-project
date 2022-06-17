@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "greetings.apps.GreetingsConfig",
     "sports.apps.SportsConfig",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
